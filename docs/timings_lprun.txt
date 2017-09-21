@@ -1,6 +1,6 @@
 Timer unit: 1e-06 s
 
-Total time: 170.092 s
+Total time: 170.914 s
 File: /Users/anag/anaconda/envs/python2.7/lib/python2.7/site-packages/rdtools/clearsky_temperature.py
 Function: get_clearsky_tamb at line 13
 
@@ -15,26 +15,26 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     19                                               '''
     20                                           
     21                                           
-    22         1           94     94.0      0.0      filepath = pkg_resources.resource_filename('rdtools', 'data/temperature.hdf5')
+    22         1           96     96.0      0.0      filepath = pkg_resources.resource_filename('rdtools', 'data/temperature.hdf5')
     23                                           
-    24         1            7      7.0      0.0      buffer = timedelta(days=80)
-    25         1          126    126.0      0.0      interval = times[1] - times[0]
-    26         1           20     20.0      0.0      points_per_day = int(timedelta(days=1)/interval)
-    27         1         7688   7688.0      0.0      dt = pd.date_range(times[0] - buffer, times[-1] + buffer, freq=interval)
+    24         1            8      8.0      0.0      buffer = timedelta(days=80)
+    25         1          119    119.0      0.0      interval = times[1] - times[0]
+    26         1           19     19.0      0.0      points_per_day = int(timedelta(days=1)/interval)
+    27         1         7467   7467.0      0.0      dt = pd.date_range(times[0] - buffer, times[-1] + buffer, freq=interval)
     28                                           
     29                                               #print model
     30                                           
     31                                           
-    32         1          217    217.0      0.0      f = h5py.File(filepath, "r")
+    32         1          218    218.0      0.0      f = h5py.File(filepath, "r")
     33                                           
-    34         1          166    166.0      0.0      a = f['temperature']['day']
+    34         1          187    187.0      0.0      a = f['temperature']['day']
     35         1          101    101.0      0.0      b = f['temperature']['night']
     36                                           
-    37         1          836    836.0      0.0      lons = len(a[:, 0, 0])
-    38         1          220    220.0      0.0      lats = len(a[0, :, 0])
+    37         1          803    803.0      0.0      lons = len(a[:, 0, 0])
+    38         1          214    214.0      0.0      lats = len(a[0, :, 0])
     39                                           
     40         1            2      2.0      0.0      lon_temp = longitude - 180
-    41         1            2      2.0      0.0      if lon_temp  < 0:
+    41         1            1      1.0      0.0      if lon_temp  < 0:
     42         1            2      2.0      0.0          lon_temp += 360
     43         1            3      3.0      0.0      lon_index = round(float(lons) * float(lon_temp) / 360.0)
     44         1            2      2.0      0.0      lat_index = round(float(lats) * (90.0 - float(latitude)) / 180.0)
@@ -42,45 +42,45 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
     46                                               #print lons, lats, lon_index, lat_index
     47                                           
     48                                           
-    49         1          465    465.0      0.0      df = pd.DataFrame(index=dt)
-    50         1        73648  73648.0      0.0      df['month'] = df.index.month
+    49         1          486    486.0      0.0      df = pd.DataFrame(index=dt)
+    50         1        77650  77650.0      0.0      df['month'] = df.index.month
     51                                           
     52         1            2      2.0      0.0      ave_day = []
-    53         1            1      1.0      0.0      ave_night = []
+    53         1            2      2.0      0.0      ave_night = []
     54                                           
-    55         1            1      1.0      0.0      radius = 0
-    56        13           21      1.6      0.0      for k in range(12):
+    55         1            2      2.0      0.0      radius = 0
+    56        13           23      1.8      0.0      for k in range(12):
     57                                           
-    58        12        14813   1234.4      0.0          day = _get_pixel_value(a,lon_index,lat_index,k,radius)
-    59        12        14598   1216.5      0.0          night = _get_pixel_value(b, lon_index, lat_index, k, radius)
+    58        12        17079   1423.2      0.0          day = _get_pixel_value(a,lon_index,lat_index,k,radius)
+    59        12        16295   1357.9      0.0          night = _get_pixel_value(b, lon_index, lat_index, k, radius)
     60                                           
-    61        12           30      2.5      0.0          if day == float("NaN"):
+    61        12           45      3.8      0.0          if day == float("NaN"):
     62                                                       day = a[:,lat_index,k]
-    63        12           17      1.4      0.0          if night == float("NaN"):
+    63        12           18      1.5      0.0          if night == float("NaN"):
     64                                                       night = a[:,lat_index,k]
     65                                           
-    66        12           19      1.6      0.0          ave_day.append(day)
-    67        12           14      1.2      0.0          ave_night.append(night)
+    66        12           32      2.7      0.0          ave_day.append(day)
+    67        12           21      1.8      0.0          ave_night.append(night)
     68                                           
     69                                           
     70                                               #print ave_day, ave_night
     71                                           
     72                                           
     73                                           
-    74        13           40      3.1      0.0      for i in range(12):
-    75        12       138532  11544.3      0.1          df.loc[df['month']== i+1, 'day'] = ave_day[i]
-    76        12       148973  12414.4      0.1          df.loc[df['month'] == i+1, 'night'] = ave_night[i]
+    74        13           29      2.2      0.0      for i in range(12):
+    75        12       140821  11735.1      0.1          df.loc[df['month']== i+1, 'day'] = ave_day[i]
+    76        12       173427  14452.2      0.1          df.loc[df['month'] == i+1, 'night'] = ave_night[i]
     77                                           
     78                                           
-    79         1     81923590 81923590.0     48.2      df = df.rolling(window=40 * points_per_day, win_type='gaussian').mean(std=20 * points_per_day)
-    80         1        22250  22250.0      0.0      df = df[(df.index >= times[0]) & (df.index <= times[-1])]
+    79         1     82814414 82814414.0     48.5      df = df.rolling(window=40 * points_per_day, win_type='gaussian').mean(std=20 * points_per_day)
+    80         1        19701  19701.0      0.0      df = df[(df.index >= times[0]) & (df.index <= times[-1])]
     81                                           
-    82    920075      5645430      6.1      3.3      utc_offsets = [y.utcoffset().total_seconds()/3600.0 for y in df.index]
-    83         1            3      3.0      0.0      solar_noon_offset = lambda utc_offset : longitude / 180.0 * 12.0 - utc_offset
-    84    920075      1788656      1.9      1.1      df['solar_noon_offset'] = [solar_noon_offset(utc_offset) for utc_offset in utc_offsets]
+    82    920075      5640168      6.1      3.3      utc_offsets = [y.utcoffset().total_seconds()/3600.0 for y in df.index]
+    83         1            2      2.0      0.0      solar_noon_offset = lambda utc_offset : longitude / 180.0 * 12.0 - utc_offset
+    84    920075      1741147      1.9      1.0      df['solar_noon_offset'] = [solar_noon_offset(utc_offset) for utc_offset in utc_offsets]
     85                                           
-    86         1       104237 104237.0      0.1      df['hour_of_day'] = df.index.hour + df.index.minute / 60.0
-    87         1            4      4.0      0.0      df['Clear Sky Temperature (C)'] = df.apply(lambda x:
+    86         1        93748  93748.0      0.1      df['hour_of_day'] = df.index.hour + df.index.minute / 60.0
+    87         1            3      3.0      0.0      df['Clear Sky Temperature (C)'] = df.apply(lambda x:
     88                                                                                          _get_temperature(x['hour_of_day'], x['night'], 
-    89         1     80207341 80207341.0     47.2                                                                  x['day'],x['solar_noon_offset']), axis=1)
+    89         1     80169577 80169577.0     46.9                                                                  x['day'],x['solar_noon_offset']), axis=1)
     90         1          119    119.0      0.0      return df['Clear Sky Temperature (C)']
