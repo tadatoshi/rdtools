@@ -76,7 +76,7 @@ def get_clearsky_tamb(times, latitude, longitude):
         df.loc[df['month'] == i+1, 'night'] = ave_night[i]
 
 
-    df = df.rolling(window=40 * points_per_day, win_type='gaussian').mean(std=20 * points_per_day)
+    df = df.rolling(window=40 * points_per_day, win_type='gaussian', center=True).mean(std=20 * points_per_day)
     df = df[(df.index >= times[0]) & (df.index <= times[-1])]
 
     utc_offsets = [y.utcoffset().total_seconds()/3600.0 for y in df.index]
