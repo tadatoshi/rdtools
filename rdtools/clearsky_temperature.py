@@ -33,7 +33,9 @@ def get_clearsky_tamb(times, latitude, longitude, window_size=40, gauss_std=20):
     filepath = pkg_resources.resource_filename('rdtools', 'data/temperature.hdf5')
 
     buffer = timedelta(days=window_size)
-    freq_actual = pd.infer_freq(times)
+    
+    #freq_actual = pd.infer_freq(times) if pd.infer_freq(times) != None else pd.infer_freq(times[:10]) 
+    freq_actual = times.freqstr
     dt_daily = pd.date_range(times[0] - buffer, times[-1] + buffer, freq='D')
 
     f = h5py.File(filepath, "r")
