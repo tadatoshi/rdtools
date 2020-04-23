@@ -20,20 +20,26 @@ Source code: https://github.com/NREL/rdtools
 DISTNAME = 'rdtools'
 LICENSE = 'MIT'
 AUTHOR = 'Rdtools Python Developers'
+AUTHOR_EMAIL = 'RdTools@nrel.gov'
 MAINTAINER_EMAIL = 'RdTools@nrel.gov'
 
 URL = 'https://github.com/NREL/rdtools'
 
+SETUP_REQUIRES = [
+    'pytest-runner',
+]
+
+TESTS_REQUIRE = [
+    'pytest >= 3.6.3',
+]
+
 INSTALL_REQUIRES = [
-    'numpy >= 1.11.2',
-    'pandas >= 0.20.3',
-    'pvlib >= 0.5.0',
+    'numpy >= 1.12',
+    'pandas >= 0.23.0, <1.0.0',
     'statsmodels >= 0.8.0',
     'scipy >= 0.19.1',
-    'patsy >= 0.4.1',
     'h5py >= 2.7.1',
-    'pytz',
-    'six',
+    'pvlib >= 0.5.0, <0.6.0',
 ]
 
 CLASSIFIERS = [
@@ -74,11 +80,13 @@ setup(name=DISTNAME,
       cmdclass=versioneer.get_cmdclass(),
       packages=PACKAGES,
       keywords=KEYWORDS,
+      setup_requires=SETUP_REQUIRES,
+      tests_require=TESTS_REQUIRE,
       install_requires=INSTALL_REQUIRES,
       description=DESCRIPTION,
       long_description=LONG_DESCRIPTION,
       author=AUTHOR,
-      author_email=AUTHOR,
+      author_email=AUTHOR_EMAIL,
       maintainer_email=MAINTAINER_EMAIL,
       license=LICENSE,
       url=URL,
